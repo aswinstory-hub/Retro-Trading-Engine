@@ -1,0 +1,9 @@
+prefix="C:/Program Files (x86)/RTP"
+libdir="C:/Program Files (x86)/RTP/lib"
+includedir="C:/Program Files (x86)/RTP/include"
+
+Name: ftxui
+Description: 
+Version: 7.0.3
+Cflags: -I${includedir}
+Libs: -L${libdir} -lftxui-component -lftxui-dom -lftxui-screen

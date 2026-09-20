@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/dev/utp/build/cmake_install.cmake",
+		"D:/dev/utp/build/_deps/ftxui-build/cmake_install.cmake",
+		"D:/dev/utp/build/_deps/ftxui-build/examples/cmake_install.cmake",
+		"D:/dev/utp/build/_deps/ftxui-build/doc/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
