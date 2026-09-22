@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "main.hpp" 
+#include "ftxui/dom/elements.hpp"
 
 
 using namespace ftxui;
@@ -17,64 +19,51 @@ int main() {
     auto screen = ScreenInteractive::TerminalOutput();
 
     // State
+    Page page = Page::Charting;
 
-    int selected = 0;
-    bool changePanel = false;
 
-    std::vector<std::string> panelItems = {
-        "Chart",
-        "Trade",
-        "Sim"
-    };
-
-    auto Panel = Menu(&panelItems, &selected);
-
-    auto component = Container::Horizontal({
-        Panel 
-    });
+    // Components
+    auto watchlist = vbox() | size(HEIGHT, EQUAL, 18);
+    auto indicator = vbox() | flex ; 
+    auto chart = vbox() | flex;
+    auto guide = vbox();
 
     
-    auto renderer = Renderer(component, [&] {
-                                 
-        
+    auto renderer = Renderer( [&] {
 
-
-        auto panelBox = 
-                hbox({
-                    text("Panel") | bold | center,
-                    separator(),
-                    Panel->Render() | frame | size(WIDTH, EQUAL, 20),    
-                })
-                | border | center | bgcolor(Color::Black);
-
-        
-        auto content =  vbox({
-
-            // Title
-            text("FTXUI App")
-                | bold
-                | center
-                | bgcolor(Color::Blue),
-
-
-            separator(),
-
-            // Main Containing Box
+        auto charting =
             hbox({
-                text("Press 'p' to open panel") | center
-            })
-            | flex | size(HEIGHT, EQUAL, 200) | border
 
-        })| bgcolor(Color::White);
+                // Left Side 
+                vbox({
+                    // Title
+                    hbox({ text("Charting") }) | border,
+                                                
 
-        if (changePanel) {
-            return dbox({
-                content,
-                panelBox | center,
+                    // Watchlist
+                    window(text(" Watchlist "), watchlist),
+                    
+                    // Indicator
+                    window(text(" Indicators "), indicator),
+                })
+                | size(WIDTH, EQUAL, 25)
+                | size(HEIGHT, EQUAL, 200),
+
+                // Right side
+                vbox({
+
+                    // Ticker And LTP
+                    hbox({ text("Ticker"), filler(), text("LTP") }) | border ,
+
+                    window(text(" Chart "), chart),
+
+                    window(text(" Guide "), guide),
+                }) | flex  
+                
             });
-        }
 
-        return content ; 
+        return charting;
+                           
     });
 
 
@@ -84,10 +73,6 @@ int main() {
 
         if (event == Event::Character('q')) {
             screen.Exit();
-            return true;
-        }
-        if (event == Event::Character('p')) {
-            changePanel = !changePanel;
             return true;
         }
         return false;                          
